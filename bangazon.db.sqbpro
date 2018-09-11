@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="/Users/nss4/workspace/sql/bangazon-data-model/bangazon.db" foreign_keys="1"/><window><current_tab id="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="1577"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="COMPUTER"/><default_encoding codec=""/><browsetable_info data="AAAAAA=="/></tab_browse><tab_sql><sql name="SQL 1">--Employee Tables--
+
+CREATE TABLE 'EMPLOYEE' (
+'EmployeeId' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+'DepartmentId' INTEGER NOT NULL,
+'FirstName' VARCHAR(30),
+'LastName' VARCHAR(30)
+);
+
+CREATE TABLE  'EMPLOYEE_COMPUTER' (
+'EmployeeComputerId' INTEGER PRIMARY KEY,
+'EmployeeId' INTEGER NOT NULL,
+'ComputerId' INTEGER NOT NULL,
+'DateAssigned' VARCHAR(10),
+'DateReturned' VARCHAR(10)
+);
+
+CREATE TABLE 'COMPUTER' (
+'ComputerId' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+'PurchaseDate' VARCHAR(10),
+'DecomissionDate' VARCHAR(10),
+status BOOLEAN
+);
+
+CREATE TABLE 'DEPARTMENT' (
+'DepartmentId' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+'Name' varchar(30),
+'ExpenseBudget' INTEGER NOT NULL
+);
+
+CREATE TABLE 'SUPERVISOR' (
+'SupervisorId' INTEGER PRIMARY KEY,
+'DepartmentId' INTEGER NOT NULL,
+'EmployeeId' INTEGER NOT NULL
+);
+
+CREATE TABLE 'EMPLOYEE_TRAINING_PROGRAM' (
+'EmployeeTrainingProgramId' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+'EmployeeId' INTEGER NOT NULL,
+'TrainingProgramId' INTEGER NOT NULL
+);
+
+CREATE TABLE 'TRAINING_PROGRAM' (
+'TrainingProgramId' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+'Name' VARCHAR(30),
+'StartDate' VARCHAR(10),
+'EndDate' VARCHAR(10),
+'Capacity' INTEGER NOT NULL
+);
+
+--Customer/Order Tables--
+
+CREATE TABLE 'CUSTOMER' (
+'CustomerId' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+'FirstName' VARCHAR(30),
+'LastName' VARCHAR(30),
+'DateAccountCreated' DATE,
+'LastLoginDate' VARCHAR(10)
+);
+
+CREATE TABLE 'ORDER' (
+'OrderId' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+'CustomerId' INTEGER NOT NULL,
+'PaymentId' INTEGER NOT NULL,
+'OrderDate' VARCHAR(10)
+);
+
+CREATE TABLE 'PRODUCT_ORDER' (
+'ProductOrderId' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+'ProductId' INTEGER NOT NULL,
+'OrderId' INTEGER NOT NULL
+);
+
+CREATE TABLE 'PAYMENT' (
+'PaymentId' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+'OrderId' INTEGER NOT NULL,
+'CustomerId' INTEGER NOT NULL,
+'Type' VARCHAR(20),
+'AccountName' VARCHAR(30),
+'AccountNumber' INTEGER NOT NULL
+);
+
+CREATE TABLE 'PRODUCT' (
+'ProductId' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+'ProductTypeId' INTEGER NOT NULL,
+'CustomerId' INTEGER NOT NULL,
+'Price' INTEGER NOT NULL,
+'Description' VARCHAR(100),
+'Quantity' INTEGER NOT NULL
+);
+
+CREATE TABLE 'PRODUCT_TYPE' (
+'ProductTypeId' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+'Type' VARCHAR(30)
+);
+
+--INSERTS--
+
+INSERT INTO EMPLOYEE (DepartmentId,FirstName, LastName) VALUES 
+(&quot;1&quot;,&quot;Sathvik&quot;, &quot;Reddy&quot;)
+,(&quot;2&quot;,&quot;Jordan&quot;, &quot;Finley&quot;)
+,(&quot;3&quot;,&quot;Sreyas&quot;, &quot;Reddy&quot;)
+,(&quot;4&quot;,&quot;Bhaskar&quot;, &quot;Reddy&quot;)
+,(&quot;5&quot;,&quot;Tanuja&quot;, &quot;Reddy&quot;);
+
+INSERT INTO SUPERVISOR (DepartmentId, EmployeeId) VALUES 
+(&quot;5&quot;, &quot;1&quot;)
+,(&quot;4&quot;, &quot;2&quot;)
+,(&quot;3&quot;, &quot;3&quot;)
+,(&quot;2&quot;, &quot;4&quot;)
+,(&quot;1&quot;, &quot;5&quot;);
+
+INSERT INTO DEPARTMENT (Name, ExpenseBudget) VALUES 
+(&quot;Finance&quot;, &quot;100000&quot;)
+,(&quot;Technology&quot;, &quot;300000&quot;)
+,(&quot;Accounting&quot;, &quot;200000&quot;)
+,(&quot;Operations&quot;, &quot;50000&quot;)
+,(&quot;Analytics&quot;, &quot;30000&quot;);
+
+INSERT INTO TRAINING_PROGRAM (Name, StartDate, EndDate, Capacity) VALUES 
+(&quot;Yoga&quot;,&quot;01/01/2018&quot;, &quot;02/01/2018&quot;, &quot;FALSE&quot;)
+,(&quot;Tennis&quot;,&quot;02/01/2018&quot;, &quot;03/01/2018&quot;, &quot;TRUE&quot;)
+,(&quot;Zumba&quot;,&quot;03/01/2018&quot;, &quot;04/01/2018&quot;, &quot;FALSE&quot;);
+
+INSERT INTO EMPLOYEE_TRAINING_PROGRAM (EmployeeId, TrainingProgramId) VALUES 
+(&quot;1&quot;, &quot;1&quot;)
+,(&quot;2&quot;, &quot;2&quot;)
+,(&quot;3&quot;, &quot;2&quot;)
+,(&quot;4&quot;, &quot;3&quot;)
+,(&quot;5&quot;, &quot;1&quot;);
+
+INSERT INTO COMPUTER (PurchaseDate,DecomissionDate, Status) VALUES 
+(&quot;05/05/2018&quot;,&quot;11/06/2018&quot;, &quot;FALSE&quot;)
+,(&quot;07/21/2018&quot;,&quot;12/01/2018&quot;, &quot;TRUE&quot;)
+,(&quot;07/22/2018&quot;,&quot;12/02/2018&quot;, &quot;FALSE&quot;)
+,(&quot;07/23/2018&quot;,&quot;12/03/2018&quot;, &quot;FALSE&quot;)
+,(&quot;07/24/2018&quot;,&quot;12/04/2018&quot;, &quot;TRUE&quot;);
+
+INSERT INTO EMPLOYEE_COMPUTER (EmployeeId,ComputerId, DateAssigned, DateReturned) VALUES 
+(&quot;1&quot;,&quot;1&quot;, &quot;07/01/2018&quot;, &quot;07/01/2019&quot;)
+,(&quot;2&quot;,&quot;2&quot;, &quot;07/02/2018&quot;, &quot;07/02/2019&quot;)
+,(&quot;3&quot;,&quot;3&quot;, &quot;07/03/2018&quot;, &quot;07/03/2019&quot;)
+,(&quot;4&quot;,&quot;4&quot;, &quot;07/04/2018&quot;, &quot;07/04/2019&quot;)
+,(&quot;5&quot;,&quot;5&quot;, &quot;07/05/2018&quot;, &quot;07/05/2019&quot;);
+
+INSERT INTO CUSTOMER (FirstName, LastName, DateAccountCreated, LastLoginDate) VALUES 
+(&quot;Rohit&quot;,&quot;Venkat&quot;, &quot;02/10/2017&quot;, &quot;01/01/2018&quot;)
+,(&quot;Rishi&quot;,&quot;Reddy&quot;, &quot;02/11/2017&quot;, &quot;08/01/2018&quot;)
+,(&quot;Gina&quot;,&quot;Fallos&quot;, &quot;02/12/2017&quot;, &quot;09/06/2018&quot;);
+
+INSERT INTO PRODUCT (ProductTypeId, CustomerId, Price, Description, Quantity) VALUES 
+(&quot;3&quot;,&quot;1&quot;, &quot;100&quot;, &quot;Head Tennis Racket&quot;, &quot;1&quot;)
+,(&quot;4&quot;,&quot;2&quot;, &quot;25&quot;, &quot;Cards against Humanity&quot;, &quot;3&quot;)
+,(&quot;1&quot;,&quot;1&quot;, &quot;70&quot;, &quot;Kindle PaperWhite&quot;, &quot;2&quot;)
+,(&quot;2&quot;,&quot;3&quot;, &quot;60&quot;, &quot;Red Dead Redemption 2&quot;, &quot;1&quot;)
+,(&quot;2&quot;,&quot;3&quot;, &quot;300&quot;, &quot;Xbox One&quot;, &quot;1&quot;);
+
+INSERT INTO PRODUCT_TYPE (Type) VALUES 
+(&quot;Education&quot;)
+,(&quot;Video Games&quot;)
+,(&quot;Sports&quot;)
+,(&quot;Board Games&quot;);
+
+INSERT INTO 'ORDER' (CustomerId,PaymentId, OrderDate) VALUES 
+(&quot;1&quot;,&quot;1&quot;, &quot;08/11/2018&quot;)
+,(&quot;2&quot;,&quot;3&quot;, &quot;09/01/2018&quot;)
+,(&quot;1&quot;,&quot;1&quot;, &quot;09/08/2018&quot;)
+,(&quot;3&quot;,&quot;2&quot;, &quot;09/09/2018&quot;)
+,(&quot;3&quot;,&quot;2&quot;, &quot;09/05/2018&quot;);
+
+INSERT INTO PRODUCT_ORDER (ProductId, OrderId) VALUES 
+(&quot;1&quot;, &quot;1&quot;)
+,(&quot;2&quot;, &quot;2&quot;)
+,(&quot;3&quot;, &quot;3&quot;)
+,(&quot;4&quot;, &quot;4&quot;)
+,(&quot;5&quot;, &quot;5&quot;);
+
+INSERT INTO PAYMENT (OrderId,CustomerId, Type, AccountName, AccountNumber) VALUES 
+(&quot;1&quot;,&quot;1&quot;, &quot;Credit Card&quot;, &quot;Rohit Venkat&quot;, &quot;12345678&quot;)
+,(&quot;2&quot;,&quot;2&quot;, &quot;Debit Card&quot;, &quot;Rishi Reddy&quot;, &quot;87654321&quot;)
+,(&quot;3&quot;,&quot;3&quot;, &quot;Credit Card&quot;, &quot;Gina Fallos&quot;, &quot;1110011&quot;)
+,(&quot;4&quot;,&quot;1&quot;, &quot;Money Order&quot;, &quot;Rohit Venkat&quot;, &quot;123&quot;)
+,(&quot;5&quot;,&quot;2&quot;, &quot;Credit Card&quot;, &quot;Rishi Reddy&quot;, &quot;4653465436&quot;);
+</sql><current_tab id="0"/></tab_sql></sqlb_project>
